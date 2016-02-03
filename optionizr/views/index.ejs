@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<% include shared/header %>
+		<script>
+			$(document).ready(function(){
+				$("#date" ).datepicker({
+					dateFormat: "yy-mm-dd",
+					minDate: 1
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<% include shared/nav %>
+		<!-- main container -->
+		<div class="container">
+				<!-- page header -->
+				<div class="page-header">
+					<h1>Air france flight list</h1>
+				</div>
+				<!-- end page header -->
+
+				<% if(locals.error) { %>
+					<!-- error -->
+					<div class="row">
+						<div class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1 col-xs-offset-0">
+							<div class="alert alert-danger">
+								<strong>Erreur : </strong> <%- error %>
+							</div>
+						</div>
+					</div>
+					<!-- end error -->
+				<% } %>
+
+
+				<% if(locals.success) { %>
+					<!-- error -->
+					<div class="row">
+						<div class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1 col-xs-offset-0">
+							<div class="alert alert-success">
+								<strong>BRAVO : </strong> C'est maintenant a vous de jouer !! :) %>
+							</div>
+						</div>
+					</div>
+					<!-- end error -->
+				<% } %>
+
+				<form action="/demo" method="post">
+					<!-- field list row -->
+					<div class="row">
+						<!-- field list col -->
+						<div class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1 col-xs-offset-0">
+							<div class="form-group">
+								<label class="form-label" for="from">From</label>
+								<select class="form-control" id="from" name="from">
+									<option value="ORY">Paris Orly</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="form-label" for="to">to</label>
+								<select class="form-control" id="to" name="to">
+									<option value="TLS">Toulouse-Blagnac</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="form-label" for="number">Passenger number</label>
+								<select class="form-control" id="number" name="number">
+									<option value="1">1</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="form-label" for="passenger_type">Passenger type</label>
+								<select class="form-control" id="passenger_type" name="passenger_type">
+									<option value="ADT">Adulte</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="form-label" for="type">Travel type</label>
+								<select class="form-control" id="type" name="type">
+									<option value="1">Aller simple</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="form-label" for="date">Travel date</label>
+								<input type="text" id="date" name="date" value="2016-04-28" class="form-control"/>
+							</div>
+							<div class="form-group text-center">
+								<button class="btn btn-primary" type="submit">Submit</button>
+							</div>
+						</div>
+						<!-- end field list col -->
+					</div>
+					<!-- end field list row -->
+				</form>
+		</div>
+		<!-- end main container -->
+		<% include shared/footer %>
+	</body>
+</html>

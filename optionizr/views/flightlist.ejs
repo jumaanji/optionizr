@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<% include shared/header %>
+		<script>
+			$(document).ready(function(){
+				$("#date" ).datepicker({
+					dateFormat: "yy-mm-dd",
+					minDate: 1
+				});
+			});
+		</script>
+
+		<style>
+			.flight-result{
+				border:1px solid orange;
+				background-color:#E8E8E8;
+				margin-bottom:10px;
+			}
+			.flight-result:hover{
+				border:1px solid red;
+				background-color:#FFFF99;
+			}
+			.product
+			{
+				border:1px solid #E8E8E8;
+			}
+			.product:hover
+			{
+				border:1px solid red;
+			}
+			.product a{
+				outline:none;
+				text-decoration: none;
+				color: inherit;
+			}
+			.vertical-align {
+			    display: flex;
+			    align-items: center;
+			}
+
+		</style>
+	</head>
+	<body>
+		<% include shared/nav %>
+		<!-- main container -->
+		<div class="container">
+				<!-- header -->
+				<div class="page-header">
+					<h1>Air france flight list</h1>
+				</div>
+				<!-- header -->
+
+				<% if(error) { %>
+					<!-- error -->
+					<div class="row">
+						<div class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1 col-xs-offset-0">
+							<div class="alert alert-danger">
+								<strong>Erreur : </strong> <%- error %>
+							</div>
+						</div>
+					</div>
+					<!-- error -->
+				<% } %>
+
+				<% for(var i = 0; i <list.length; i++) { %>
+					<!-- flight result, direct flight only listFlightFeatures contains only one flight segment-->
+					<div class="row vertical-align">
+						<div class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1 col-xs-offset-0 flight-result">
+								<div class="row vertical-align">
+									<!-- carrier -->
+									<div class="col-md-3 col-sm-3 col-xs-12 text-center">
+										<h4>Air France</h4>
+										<img src="/img/af.png" title="Air France" alt="Air France" class="img-responsive center-block"/>
+									</div>
+									<!-- end carrier -->
+
+									<!-- origin/destination -->
+									<div class="col-md-3 col-sm-3 col-xs-12">
+										<p>
+											<!-- origin string + date -->
+											<b>From : </b> 	<%- list[i].departureCodeFormatted+" "+list[i].departureDateFormatted %>
+										</p>
+										<p>
+											<!-- destination string + date -->
+											<b>To : </b> 	<%- list[i].arrivalCodeFormatted+" "+list[i].arrivalDateFormatted %>
+										</p>
+									</div>
+									<!-- end origin/destination -->
+
+									<!-- flight info -->
+									<div class="col-md-3 col-sm-3 col-xs-12">
+										<p>
+											<!-- flight number -->
+											<b><%- list[i].listFlightFeatures[0].operatorCode+""+list[i].listFlightFeatures[0].flightNumber %></b>
+										</p>
+										<p>
+											<!-- plane type -->
+											<b><%- list[i].listFlightFeatures[0].planeType %></b>
+										</p>
+										<p>
+											<!-- Trip length -->
+											<b><%- list[i].duration %></b>
+										</p>
+									</div>
+									<!-- end flight info -->
+
+									<!-- products -->
+									<div class="col-md-3 col-sm-3 col-xs-12">
+										<!-- foreach product in flight -->
+										<% for(var j = 0; j<list[i].listPrices.length; j++) { %>
+											<% var product = list[i].listPrices[j]; %>
+											<% var product_type = null %>
+											<% for(var k = 0; k < fares.length; k++) { %>
+												<% if(product.fareFamilyName == fares[k].name) product_type = fares[k]; %>
+											<% } %>
+
+											<div class="row  vertical-align product" style="background-color:<%- product_type.color %>;">
+												<div class="col-sm-12 col-md-12 col-xs-12 text-center">
+													<p>
+														<a href="/demo/pnr/<%- i %>/<%- j %>">
+															<h3>€<%- list[i].listPrices[j].priceFormatted+" "+product_type.fareProductIdentifier.name%></h3>
+														</a>
+													</p>
+												</div>
+											</div>
+										<% } %>
+									</div>
+									<!-- endd products -->
+
+								</div>
+						</div>
+					</div>
+					<!-- end flight -->
+				<% } %>
+		</div>
+		<!-- end main container -->
+		<% include shared/footer %>
+	</body>
+</html>

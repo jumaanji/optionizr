@@ -1,0 +1,15 @@
+Requirement :
+npm and node must be installed
+
+Install application:
+npm install
+
+Run application:
+node app.js
+
+Demo page (when application is running) in browser:
+http://localhost:9000/demo
+
+When installing a new package, don't forget to use the --save option in order to add package to package.json depencies :
+npm install myawesomepackage --save
+
