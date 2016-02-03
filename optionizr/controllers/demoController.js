@@ -59,26 +59,26 @@ exports.postIndex = function(req, res)
 exports.retrieveAirFranceFlightList = function(req, res, data)
 {
 	// build body request string
-	var bodyString = "dayDate="+ 			moment(data.date).format("DD")
-				+"&"+"nbEnfants=0"
-				+"&"+"nbBebes=0"
-				+"&"+"nbPassenger="+ 		data.number
+	var bodyString = "outboundDate="+ 			data.date
+				+"&"+"childCount=0"
+				+"&"+"infantCount=0"
+				+"&"+"adultCount="+ 		data.number
 				+"&"+"departure="+ 			data.from
-				+"&"+"departureType=AIRP"
-				+"&"+"nbAdults="+ 			data.number
-				+"&"+"paxTypoList="+ 		data.passenger_type
-				+"&"+"yearMonthDate="+ 		moment(data.date).format("YYYY")+moment(data.date).format("MM")
-				+"&"+"typeTrip="+ 			data.type
-				+"&"+"arrival="+ 			data.to
-				+"&"+"arrivalType=AIRP"
-				+"&"+"calendarSearch=1"
-				+"&"+"haul=SH"
-				+"&"+"familyTrip=NON"
-				+"&"+"pluOptions="
-				+"&"+"isUM=false"
-				+"&"+"selectCabin=on"
-				+"&"+"cabin=Y"
-				+"&"+"subCabin=MCHER";
+				// +"&"+"departureType=AIRP"
+				// +"&"+"nbAdults="+ 			data.number
+				// +"&"+"paxTypoList="+ 		data.passenger_type
+				// +"&"+"yearMonthDate="+ 		moment(data.date).format("YYYY")+moment(data.date).format("MM")
+				+"&"+"oneway="+ 			data.type
+				+"&"+"destination="+ 			data.to
+				// +"&"+"arrivalType=AIRP"
+				// +"&"+"calendarSearch=1"
+				// +"&"+"haul=SH"
+				// +"&"+"familyTrip=NON"
+				//+"&"+"pluOptions="
+				//+"&"+"isUM=false"
+				//+"&"+"selectCabin=on"
+				//+"&"+"cabin=Y"
+				//+"&"+"subCabin=MCHER";
 
 	// build request data (body, headers)
 	var requestData = {
@@ -180,7 +180,7 @@ exports.parseAirFranceFlightList = function(req, res, body, requestData)
 							fares : json.fareFamilies,
 							list : validFlights
 						};
-						
+
 						// display flight list
 						return res.render("flightlist.ejs",{
 							error: 		"",					// error
@@ -295,11 +295,11 @@ exports.cleanSession = function(req)
 * COOKIE JAR ERROR IN REQUEST :
 * Cookie jar in request:
 * request.post({.... jar:request.jar()}) --> cookie is a json object like :
-* { _jar: 
+* { _jar:
    { enableLooseMode: true,
-     store: 
-      { idx: { 'www.airfrance.fr': 
-         { '/': 
+     store:
+      { idx: { 'www.airfrance.fr':
+         { '/':
             { targetPath_b2c: Cookie="targetPath_b2c=b2c_b; Domain=www.airfrance.fr; Path=/; hostOnly=false; aAge=199ms; cAge=2718ms",
               JSESSIONID: Cookie="JSESSIONID=15339EFE4C9EA956454B00E66D17155A.a61s1; Path=/; HttpOnly; hostOnly=true; aAge=2701ms; cAge=2715ms",
               ASID: Cookie="ASID=.a61s1; Path=/; hostOnly=true; aAge=2702ms; cAge=2715ms" }
@@ -313,7 +313,7 @@ exports.cleanSession = function(req)
 *
 *
 *  When storing jar in session, then rendering a view, then retrieving cookie jar from session cookie is like, node  Serialize-deserialize session, cookie jar stored in session is modified...  :
-{ _jar: 
+{ _jar:
    { version: 'tough-cookie@2.2.1',
      storeType: 'MemoryCookieStore',
      rejectPublicSuffixes: true,
@@ -343,7 +343,7 @@ exports.cleanSession = function(req)
 
 *
 *
-* Cookie jar is now unreadable by request. 
+* Cookie jar is now unreadable by request.
 * Use hand function exports.buildCookieString(response.headers["set-cookie"]); when there's a modification in cookie instead, then pass the string through request headers.
 *
 *
