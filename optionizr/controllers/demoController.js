@@ -58,6 +58,7 @@ exports.postIndex = function(req, res)
 **/
 exports.retrieveAirFranceFlightList = function(req, res, data)
 {
+	console.log(req);
 	// build body request string
 	var bodyString = "outboundDate="+ 			data.date
 				+"&"+"departure="+ 			data.from
@@ -65,8 +66,8 @@ exports.retrieveAirFranceFlightList = function(req, res, data)
 				+"&"+"infantCount=0"
 				+"&"+"adultCount="+ 		data.number
 				+"&"+"oneway="+ 			data.type
-				+"&"+"destination="+ 			data.to
-				+"&"+"openDateOverview="+
+				+"&"+"destination="+ 			data.to;
+				// +"&"+"openDateOverview="+
 
 
 				// +"&"+"departureType=AIRP"
@@ -84,15 +85,14 @@ exports.retrieveAirFranceFlightList = function(req, res, data)
 				//+"&"+"cabin=Y"
 				//+"&"+"subCabin=MCHER";
 
-
 	// build request data (body, headers)
 	var requestData = {
-		url: "https://www.airfrance.fr/FR/en/local/process/standardbooking/ValidateSearchAction.do", 				// endpoint url
+		url: "https://www.airberlin.com/en-WW/site/start.php?gclid=CLnQwsLb3coCFQMcwwodZD0Aww&gclsrc=aw.ds", 				// endpoint url
 		body: bodyString,																							// body data
 		headers:{ 																									// http headers
 			"Content-Type" 	: "application/x-www-form-urlencoded", 													// content type (form)
 			"User-agent" 	: "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:42.0) Gecko/20100101 Firefox/42.0", 		// simulate browser
-			"Referer" 		: "https://www.airfrance.fr/FR/en/local/process/standardbooking/BookNewTripAction.do" 	// simulate request comes from airFrance
+			"Referer" 		: "https://www.airberlin.com/en-WW/site/start.php?gclid=CLnQwsLb3coCFQMcwwodZD0Aww&gclsrc=aw.ds" 	// simulate request comes from airFrance
 		}
 	};
 
@@ -113,8 +113,8 @@ exports.retrieveAirFranceFlightList = function(req, res, data)
 			*
 			**/
 			requestData.cookieString 		= exports.buildCookieString(response.headers["set-cookie"]);
-			requestData.url 				= "https://www.airfrance.fr/cgi-bin/AF/FR/en/local/process/standardbooking/DisplayFlightPageAction.do";
-			requestData.headers["Referer"] 	= "https://www.airfrance.fr/FR/en/local/process/standardbooking/ValidateSearchAction.do";
+			requestData.url 				= "https://www.airberlin.com/en-WW/booking/flight/vacancy.php?sid=17a61c583e24503663c1";
+			requestData.headers["Referer"] 	= "https://www.airberlin.com/en-WW/site/start.php?gclid=CLnQwsLb3coCFQMcwwodZD0Aww&gclsrc=aw.ds";
 			requestData.headers["Cookie"] 	= requestData.cookieString;
 
 			request.post(requestData, function(error, response, body){
