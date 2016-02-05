@@ -65,13 +65,13 @@ exports.postIndex = function (req, res) {
     // clean previous session result
     exports.cleanSession(req);
 
-    var response = requestt('https://www.airberlin.com/fr-FR/booking/flight/vacancy.php?departure=PARdestination=LON&outboundDate=' + req.body.date.toString() + '&returnDate=' + req.body.date.toString() + '&oneway=1&openDateOverview=0&adultCount=' + req.body.number.toString() + '&childCount=0&infantCount=0', {method: 'GET'});
+    var response = requestt('https://www.airberlin.com/fr-FR/booking/flight/vacancy.php?departure=' + req.body.from.toString() + '&destination=' + req.body.to.toString() + '&outboundDate=' + req.body.date.toString() + '&returnDate=' + req.body.date.toString() + '&oneway=1&openDateOverview=0&adultCount=' + req.body.number.toString() + '&childCount=0&infantCount=0', {method: 'GET'});
     var string = response.headers["location"];
     var rePattern = new RegExp(/sid=(.{20})/);
     var arrMatches = string.match(rePattern);
     var cookie = exports.buildCookieString(response.headers["set-cookie"]);
-    destletter = "Londres";
-    departletter = "Paris";
+    destletter = req.body.to.toString();
+    departletter = req.body.from.toString();
 
     exports.retrieveAirBerlinFlightList(res, arrMatches[1], cookie, destletter, departletter);
 
