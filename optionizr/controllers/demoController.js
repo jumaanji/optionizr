@@ -15,6 +15,38 @@ var cookie = require("cookies");
 
 
 /**
+ * Get departures
+ */
+exports.GetDepartures = function(req, res) {
+    var jsonString = requestt("https://www.airberlin.com/fr-FR/site/json/suggestAirport.php?searchfor=departures&searchflightid=0&departures%5B%5D=&destinations%5B%5D=Johannesburg&suggestsource%5B0%5D=activeairports&withcountries=0&withoutroutings=0&promotion%5Bid%5D=&promotion%5Btype%5D=&get_full_suggest_list=true&routesource%5B0%5D=airberlin&routesource%5B1%5D=partner", {method: 'GET'}).body.toString();
+    var parsed = JSON.parse(jsonString);
+    var object = new Object();
+    for (var i=0; i<parsed.fullSuggestList.length; i++) {
+        if (object[parsed.fullSuggestList[i].countryCode] == undefined) {
+            object[parsed.fullSuggestList[i].countryCode] = new Array();
+        }
+        object[parsed.fullSuggestList[i].countryCode].push(parsed.fullSuggestList[i])
+    }
+
+    return res.json(object);
+};
+
+exports.GetDestinations = function(req, res) {
+    var destination = req.param('destination');
+    var jsonString = requestt('https://www.airberlin.com/fr-FR/site/json/suggestAirport.php?searchfor=destinations&searchflightid=0&departures%5B%5D='+destination+'&destinations%5B%5D=&suggestsource%5B0%5D=activeairports&withcountries=0&withoutroutings=0&promotion%5Bid%5D=&promotion%5Btype%5D=&get_full_suggest_list=false&routesource%5B0%5D=airberlin&routesource%5B1%5D=partner', {method: 'GET'}).body.toString();
+    var parsed = JSON.parse(jsonString);
+    var object = new Object();
+    for (var i=0; i<parsed.suggestList.length; i++) {
+        if (object[parsed.suggestList[i].countryCode] == undefined) {
+            object[parsed.suggestList[i].countryCode] = new Array();
+        }
+        object[parsed.suggestList[i].countryCode].push(parsed.suggestList[i])
+    }
+
+    return res.json(object);
+}
+
+/**
  * Index, render search form
  **/
 exports.getIndex = function (req, res) {
@@ -41,9 +73,9 @@ exports.postIndex = function (req, res) {
     destletter = "Londres";
     departletter = "Paris";
 
-    exports.retrieveAirBerlinFlightList(arrMatches[1], cookie, destletter, departletter);
+    exports.retrieveAirBerlinFlightList(res, arrMatches[1], cookie, destletter, departletter);
 
-    res.send(arrMatches[1]);
+    //res.send(arrMatches[1]);
 };
 
 /**
@@ -51,7 +83,7 @@ exports.postIndex = function (req, res) {
  *
  * Warning, on this target site datas must be pass through two consecutive pages.
  **/
-exports.retrieveAirBerlinFlightList = function (sid, cookie, destletter, departletter) {
+exports.retrieveAirBerlinFlightList = function (res, sid, cookie, destletter, departletter) {
     console.log(cookie);
     var bodyString = "_ajax[templates][]=dateoverview"+
     "&_ajax[templates][]=main"+
@@ -68,7 +100,7 @@ exports.retrieveAirBerlinFlightList = function (sid, cookie, destletter, departl
     "&_ajax[requestParams][childCount]=0"+
     "&_ajax[requestParams][infantCount]=0"+
     "&_ajax[requestParams][openDateOverview]="+
-    "&_ajax[requestParams][oneway]=0";
+    "&_ajax[requestParams][oneway]=1";
     var requestData = {
         url: "https://www.airberlin.com/fr-FR/booking/flight/vacancy.php?sid=" + sid,
         body: bodyString,  // body data
@@ -85,7 +117,7 @@ exports.retrieveAirBerlinFlightList = function (sid, cookie, destletter, departl
     request.post(requestData, function (error, response, body) {
         var full_body = JSON.parse(response.body);
         var content = full_body["templates"]["main"]
-        console.log(content);
+        res.send(content);
     });
 };
 
