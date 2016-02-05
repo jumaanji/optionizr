@@ -3,12 +3,18 @@
 <head>
 	<% include shared/header %>
 	<script>
-	$(document).ready(function(){
-		$("#date" ).datepicker({
-			dateFormat: "yy-mm-dd",
-			minDate: 1
-		});
-	});
+	// $(document).ready(function(){
+	// 	$("#date" ).datepicker({
+	// 		dateFormat: "yy-mm-dd",
+	// 		minDate: 1
+	// 	});
+	// });
+  $(function() {
+    $('#datetimepicker2').datetimepicker({
+      language: 'en',
+      pick12HourFormat: true
+    });
+  });
 	</script>
 </head>
 <body>
@@ -79,7 +85,7 @@
 							</select>
 							<!-- <label class="form-label" for="passenger_type">Passenger type</label> -->
 							<!-- <select class="form-control" id="passenger_type" name="passenger_type"> -->
-							<span>Adulte</span>
+							<span>Adult</span>
 						</div>
 						<div class="form-group col-md-3">
 							<!-- <label class="form-label" for="number">Passenger number</label> -->
@@ -98,7 +104,7 @@
 							<!-- <select class="form-control" id="passenger_type" name="passenger_type"> -->
 							<!-- <option value="ADT">Jeune</option> -->
 
-							<span>Jeune</span>
+							<span>Young</span>
 						</div>
 						<div class="form-group col-md-3">
 							<!-- <label class="form-label" for="number"></label> -->
@@ -114,13 +120,22 @@
 								<option value="9">9</option>
 							</select>
 							<!-- <label class="form-label" for="passenger_type"></label> -->
-							<span>Enfant</span>
+							<span>Child</span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="form-group col-md-6">
-							<label class="form-label" for="date">Travel date</label>
-							<input type="text" id="date" name="date" value="Lorem" class="form-control"/>
+							<!-- <label class="form-label" for="date">Travel date</label>
+							<input type="text" id="date" name="date" value="Lorem" class="form-control"/> -->
+								<div id="datetimepicker2" class="input-append">
+						    <input data-format="MM/dd/yyyy HH:mm:ss PP" type="text"></input>
+						    <span class="add-on">
+						      <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+						      </i>
+						    </span>
+						  </div>
+			            </div>
+
 						</div>
 						<div class="form-group col-md-6">
 							<label class="form-label" for="type">Travel type</label>
