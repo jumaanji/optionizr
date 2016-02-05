@@ -73,7 +73,7 @@ exports.postIndex = function (req, res) {
     destletter = req.body.to.toString();
     departletter = req.body.from.toString();
 
-    exports.retrieveAirBerlinFlightList(res, arrMatches[1], cookie, destletter, departletter);
+    exports.retrieveAirBerlinFlightList(res, arrMatches[1], cookie, req.body);
 
     //res.send(arrMatches[1]);
 };
@@ -83,20 +83,19 @@ exports.postIndex = function (req, res) {
  *
  * Warning, on this target site datas must be pass through two consecutive pages.
  **/
-exports.retrieveAirBerlinFlightList = function (res, sid, cookie, destletter, departletter) {
-    console.log(cookie);
+exports.retrieveAirBerlinFlightList = function (res, sid, cookie, body) {
     var bodyString = "_ajax[templates][]=dateoverview"+
     "&_ajax[templates][]=main"+
     "&_ajax[templates][]=priceoverview"+
     "&_ajax[templates][]=infos"+
     "&_ajax[templates][]=flightinfo"+
-    "&_ajax[requestParams][departure]=" + departletter+
-    "&_ajax[requestParams][destination]=" + destletter+
-    "&_ajax[requestParams][returnDeparture]="+
-    "&_ajax[requestParams][returnDestination]="+
-    "&_ajax[requestParams][outboundDate]=2016-04-30"+
-    "&_ajax[requestParams][returnDate]=2016-04-30"+
-    "&_ajax[requestParams][adultCount]=1"+
+    "&_ajax[requestParams][departure]=" + body.from.toString() +
+    "&_ajax[requestParams][destination]=" + body.to.toString() +
+    "&_ajax[requestParams][returnDeparture]=" +
+    "&_ajax[requestParams][returnDestination]=" +
+    "&_ajax[requestParams][outboundDate]=" + body.date.toString() +
+    "&_ajax[requestParams][returnDate]=" + body.date.toString() +
+    "&_ajax[requestParams][adultCount]=" + body.number.toString() +
     "&_ajax[requestParams][childCount]=0"+
     "&_ajax[requestParams][infantCount]=0"+
     "&_ajax[requestParams][openDateOverview]="+
@@ -105,7 +104,7 @@ exports.retrieveAirBerlinFlightList = function (res, sid, cookie, destletter, de
         url: "https://www.airberlin.com/fr-FR/booking/flight/vacancy.php?sid=" + sid,
         body: bodyString,  // body data
         headers: {
-            //http headers
+            //http headers"
             "Content-Type": "application/x-www-form-urlencoded", // content type (form)
             "User-agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:42.0) Gecko/20100101 Firefox/42.0", // simulate browser
             "Cookie": cookie,
