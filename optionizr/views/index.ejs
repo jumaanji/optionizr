@@ -3,18 +3,18 @@
 <head>
 	<% include shared/header %>
 	<script>
-	// $(document).ready(function(){
-	// 	$("#date" ).datepicker({
-	// 		dateFormat: "yy-mm-dd",
-	// 		minDate: 1
-	// 	});
-	// });
-  $(function() {
+	 $(document).ready(function(){
+	 	$("#date" ).datepicker({
+	 		dateFormat: "yy-mm-dd",
+	 		minDate: 1
+	 	});
+	});
+  /*$(function() {
     $('#datetimepicker2').datetimepicker({
       language: 'en',
       pick12HourFormat: true
     });
-  });
+  });*/
 	</script>
 </head>
 <body>
@@ -60,13 +60,11 @@
 					<div class="form-group">
 						<label class="form-label" for="from">Departure</label>
 						<select class="form-control" id="from" name="from">
-							<option value="">Lorem</option>
 						</select>
 					</div>
 					<div class="form-group">
 						<label class="form-label" for="to">Destination</label>
 						<select class="form-control" id="to" name="to">
-							<option value="">Lorem</option>
 						</select>
 					</div>
 					<label class="form-label" for="number">Passenger number</label>
@@ -89,7 +87,8 @@
 						</div>
 						<div class="form-group col-md-3">
 							<!-- <label class="form-label" for="number">Passenger number</label> -->
-							<select class="form-control" id="number" name="number">
+							<select class="form-control" id="young_number" name="young_number">
+								<option value="0">0</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
 								<option value="3">3</option>
@@ -108,7 +107,8 @@
 						</div>
 						<div class="form-group col-md-3">
 							<!-- <label class="form-label" for="number"></label> -->
-							<select class="form-control" id="number" name="number">
+							<select class="form-control" id="child_number" name="child_number">
+								<option value="0">0</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
 								<option value="3">3</option>
@@ -125,15 +125,15 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-md-6">
-							<!-- <label class="form-label" for="date">Travel date</label>
-							<input type="text" id="date" name="date" value="Lorem" class="form-control"/> -->
-								<div id="datetimepicker2" class="input-append">
+							<label class="form-label" for="date">Travel date</label>
+							<input type="text" id="date" name="date" value="" class="form-control"/>
+								<!--<div id="datetimepicker2" class="input-append">
 						    <input data-format="MM/dd/yyyy HH:mm:ss PP" type="text"></input>
 						    <span class="add-on">
 						      <i data-time-icon="icon-time" data-date-icon="icon-calendar">
 						      </i>
 						    </span>
-						  </div>
+						  </div>-->
 			            </div>
 
 						</div>
