@@ -84,7 +84,7 @@ exports.retrieveAirBerlinFlightList = function (sid, cookie, destletter, departl
 
     request.post(requestData, function (error, response, body) {
         var full_body = JSON.parse(response.body);
-        var content = full_body["templates"]["dateoverview"]
+        var content = full_body["templates"]["main"]
         console.log(content);
     });
 };
