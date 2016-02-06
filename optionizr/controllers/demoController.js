@@ -113,10 +113,10 @@ exports.retrieveAirBerlinFlightList = function (res, sid, cookie, body) {
     request.post(requestData, function (error, response) {
         var full_body = JSON.parse(response.body);
         var content = full_body["templates"]["main"];
-        console.log(exports.parseAirBerlinFlightList(content));
+        console.log(exports.parseAirBerlinFlightList(content)['outbound']);
         res.send(content);
-        //res.render("flightlist.ejs",{
-        //    list: 	exports.parseAirBerlinFlightList(content),		// flight list
+        //res.render("test_flightlist.ejs",{
+        //    list: 	exports.parseAirBerlinFlightList(content)['outbound'],		// flight list
         //});
     });
 };
