@@ -137,6 +137,9 @@ app.get('/demo', demoController.getIndex);
 app.post("/demo", demoController.postIndex);
 app.get("/demo/pnr/:flightid/:productid", demoController.getFillPnr);
 
+app.get('/getDepartures', demoController.GetDepartures);
+app.get('/getDestinations/:destination', demoController.GetDestinations);
+
 // redirect default index
 app.get("/", demoController.getIndex);
 
