@@ -3,27 +3,17 @@
 <head>
 	<% include shared/header %>
 	<script>
-	 $(document).ready(function(){
-	 	$("#date" ).datepicker({
-	 		dateFormat: "yy-mm-dd",
-	 		minDate: 1
-	 	});
-	});
-  /*$(function() {
-    $('#datetimepicker2').datetimepicker({
-      language: 'en',
-      pick12HourFormat: true
-    });
-  });*/
+		$('#my-element').data('datepicker')
 	</script>
 </head>
 <body>
+		<!-- <img src="img/90H.jpg" alt=""> -->
 	<% include shared/nav %>
 	<!-- main container -->
 	<div class="container">
 		<!-- page header -->
 		<div class="page-header">
-			<h1>Air france flight list</h1>
+			<h1> Air Berlin flight list</h1>
 		</div>
 		<!-- end page header -->
 
@@ -123,13 +113,7 @@
 						</div>
 					</div>
 					<div class="row">
-
-	<!-- 					<div class="form-group col-md-6">
-							<label class="form-label" for="date">Travel date</label>
-							<input type="text" id="date" name="date" value="Lorem" class="form-control"/>
-						  </div>
-			            </div> -->
-					<input type='text' class="form-control datepicker-here" data-position="right top" placeholder="12/08/2015" />
+					<input type='text' class="form-control datepicker-here" data-position="right top" data-language='en' placeholder="DD/MM/YYYY" id="date" name="date" />
 					  </div>
 						</div>
 						<div class="form-group col-md-6">
