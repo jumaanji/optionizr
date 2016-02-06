@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    .note {
+border-radius: 3px;
+color: #333;
+padding: 15px;
+margin: 0 0 20px 0;
+border-style: solid;
+}
+
+.note-primary {
+  background-color: transparent;
+  border-color: #337ab7;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.note-top-striped {
+  border-width: 5px 1px 1px 1px;
+}
+    </style>
+  </head>
+  <body>
+    <div class="note note-primary note-top-striped">
+    									<h4>Wow! Primary header</h4>
+    									<p>
+    									It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that.
+    									</p>
+    								</div>
+  </body>
+</html>
+<script type="text/javascript" src="jquery.min.js">
+
+</script>
+<script type="text/javascript">
+  // jQuery(function($) {
+  //   $(document).ready(function(){
+  //     $('tr.flightrow').each(function() {
+  //       var that   = $(this);
+  //       var depart_arrive = that.find('td.table-text-left').first().text();
+  //       // alert(depart_arrive);
+  //       var time   = depart_arrive.split('–');
+  //       // console.log(time);
+  //       var depart = time[0];
+  //       var arrive = time[1];
+  //       var escal  = that.find('td:not(.flightdetailstoggle, .table-text-left)').first().text();
+  //       var duree  = that.find('td.table-text-left:eq(1)').text(); //pas sur
+  //       var price  = that.find('td.fare.faregrouptoggle').find('label .lowest span').text();
+  //
+  //       console.log(depart + '#-#' + arrive +'|'+ escal +'|'+ duree +'|'+ price);
+  //     });
+  //   });
+  // });
+  // jQuery(function($) {
+  //   $(document).ready(function() {
+  //     var regex = '<tr class="flightrow">(.+?)</tr>';
+  //     if (regex)
+  //
+  //   })
+  // })
+  var regex = '<tr class="flightrow">(.+?)</tr>',
+       match, params = {},
+       decode = function (s) {return decodeURIComponent(s.replace(/\+/g, " "));};
+
+   if (typeof url == "undefined") url = document.location.href;
+
+   while (match = re.exec(url)) {
+     params[decode(match[1])] = decode(match[2]);
+   }
+   return params;
+</script>
