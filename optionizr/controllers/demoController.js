@@ -129,7 +129,7 @@ exports.retrieveAirBerlinFlightList = function (res, sid, cookie, body) {
  **/
 exports.parseAirBerlinFlightList = function (html) {
         var string = html;
-        var reg = /<tr class="flightrow">([^.]*)<\/tr>/g
+        var reg = /(<tr class="flightrow">|<tr class="flightrow selected">)([^.]*)<\/tr>/g
         var resultAllFlights = [], found;
 
         while (found = reg.exec(string)) {
