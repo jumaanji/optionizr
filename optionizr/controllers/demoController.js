@@ -32,7 +32,7 @@ exports.GetDepartures = function(req, res) {
 };
 
 exports.GetDestinations = function(req, res) {
-    var destination = req.param('destination');
+    var destination = req.param('destination') !== undefined ? req.param('destination') : '';
     var jsonString = requestt('https://www.airberlin.com/fr-FR/site/json/suggestAirport.php?searchfor=destinations&searchflightid=0&departures%5B%5D='+destination+'&destinations%5B%5D=&suggestsource%5B0%5D=activeairports&withcountries=0&withoutroutings=0&promotion%5Bid%5D=&promotion%5Btype%5D=&get_full_suggest_list=false&routesource%5B0%5D=airberlin&routesource%5B1%5D=partner', {method: 'GET'}).body.toString();
     var parsed = JSON.parse(jsonString);
     var object = new Object();
@@ -51,7 +51,6 @@ exports.GetDestinations = function(req, res) {
  **/
 exports.getIndex = function (req, res) {
     // clean previous session result
-    exports.cleanSession(req);
 
     return res.render("index.ejs", {
         error: ""
@@ -62,16 +61,11 @@ exports.getIndex = function (req, res) {
  * Index post search, launch air france request
  **/
 exports.postIndex = function (req, res) {
-    // clean previous session result
-    exports.cleanSession(req);
-    console.log(req.body);
     var response = requestt('https://www.airberlin.com/fr-FR/booking/flight/vacancy.php?departure=' + req.body.from.toString() + '&destination=' + req.body.to.toString() + '&outboundDate=' + req.body.date.toString() + '&returnDate=' + req.body.date.toString() + '&oneway=1&openDateOverview=0&adultCount=' + req.body.number.toString() + '&childCount=0&infantCount=0', {method: 'GET'});
     var string = response.headers["location"];
     var rePattern = new RegExp(/sid=(.{20})/);
     var arrMatches = string.match(rePattern);
     var cookie = exports.buildCookieString(response.headers["set-cookie"]);
-    destletter = req.body.to.toString();
-    departletter = req.body.from.toString();
 
     exports.retrieveAirBerlinFlightList(res, arrMatches[1], cookie, req.body);
 
@@ -115,7 +109,8 @@ exports.retrieveAirBerlinFlightList = function (res, sid, cookie, body) {
 
     request.post(requestData, function (error, response, body) {
         var full_body = JSON.parse(response.body);
-        var content = full_body["templates"]["main"]
+        var content = full_body["templates"]["main"];
+        console.log(exports.parseAirBerlinFlightList(content));
         res.send(content);
     });
 };
@@ -126,75 +121,91 @@ exports.retrieveAirBerlinFlightList = function (res, sid, cookie, body) {
  * In order to simplify process we keep only direct flight (no change, 1 flight segment)
  *
  **/
-exports.parseAirBerlinFlightList = function (req, res, body, requestData) {
-    // make sure we're landing on good page
-    if (body && body.indexOf("getUpsellForPreSelectedDate") > -1) {
-        // extract flight list with regex
-        var regular_expression = /getUpsellForPreSelectedDate\((.*), indexTabSelected,.*?\);/;
-        var regular_expression_result = regular_expression.exec(body);
+exports.parseAirBerlinFlightList = function (html) {
+        var string = html;
+        var reg = /<tr class="flightrow">([^.]*)<\/tr>/g
+        var resultAllFlights = [], found;
 
-        // if match result string in regular_expression_result[1]
-        if (regular_expression_result && regular_expression_result.length == 2) {
-            // JSON.parse throw exception on fail
-            try {
-                var json = JSON.parse(regular_expression_result[1]);
-                var flightList = json ? json.upsellList : null;
+        while (found = reg.exec(string)) {
+            resultAllFlights.push(found[0]);
+        }
+        console.log("SIZE : "+resultAllFlights.length);
 
-                // to inspect datas console.log(util.inspect(flightList));
-                if (flightList && flightList.length > 0) {
-                    // in order to simplify process we manage only direct flight, other results are removed from list
-                    var validFlights = [];
-                    for (var i = 0; i < flightList.length; i++) {
-                        // check that is direct flight and there's only one flight segment
-                        if (flightList[i].isDirectFlight && flightList[i].listFlightFeatures.length == 1) {
-                            // store session cookie in each travel
-                            flightList[i].cookieString = requestData.cookieString;
+        var finalObject = {};
+        finalObject['outbound'] = {};
+        finalObject['return'] = {};
 
-                            validFlights.push(flightList[i]);
-                        }
-                    }
-
-                    // empty results must throw an error
-                    if (validFlights.length > 0) {
-
-                        /**
-                         * We don't want to repost all request on each visited page to retrieve session id, result and cookies in session
-                         **/
-                        req.session.airFrance = {
-                            fares: json.fareFamilies,
-                            list: validFlights
-                        };
-
-                        // display flight list
-                        return res.render("flightlist.ejs", {
-                            error: "",					// error
-                            list: validFlights,		// flight list
-                            fares: json.fareFamilies 	// product type
-                        });
-                    }
-                    else {
-                        console.log("No valid flights found")
-                    }
-                }
-                else {
-                    console.log("No flights found");
-                }
-            }
-            catch (e) {
-                console.log(util.inspect(e));
-                console.log("JSON parsing error");
+        var out = 0;
+        var ret = 0;
+        for (i in resultAllFlights) {
+            var ft = flightType(resultAllFlights[i].toString());
+            if (ft == "outbound") {
+                finalObject['outbound'][out] = flightInformations(resultAllFlights[i]);
+                out++;
+            } else if (ft == "return") {
+                finalObject['return'][ret] = flightInformations(resultAllFlights[i]);
+                ret++;
             }
         }
-    }
-    else {
-        console.log("Wrong request");
+        return finalObject;
+};
+
+function isOdd(num) {return num % 2;}
+
+function flightType(string) {
+    var reg = /(outboundFareId)/g
+    var resultOutbound = [], found;
+    while (found = reg.exec(string)) {
+        resultOutbound.push(found[0]);
     }
 
-    // if here an error occurs
-    return res.render("index.ejs", {
-        error: "An error occurs, cannot parse datas"
-    });
-};
+
+    var reg = /(returnFareId)/g
+    var resultReturn = [], found;
+    while (found = reg.exec(string)) {
+        resultReturn.push(found[0]);
+    }
+
+
+    if (resultOutbound.length > 0)
+        return "outbound";
+    else if (resultReturn.lengt > 0)
+        return "return";
+    else return "fail";
+}
+
+function flightInformations(string) {
+    var array = [];
+    var found;
+
+    // GET PRICES
+    var reg = /<span id="price-.{13}">(.{1,10})<\/span>/g
+    var i = 0;
+    while (found = reg.exec(string)) {
+        if (isOdd(i))
+            array.push(found[1]);
+        i++;
+    }
+
+    // GET HORAIRES
+    var reg = /<time>(.{3,10})<\/time>/g
+    var i = 0;
+    while (found = reg.exec(string)) {
+        array.push(found[1]);
+        i++;
+    }
+
+    // GET ESCALES
+    var reg = /<td>(.{1})<\/td>/g
+    var i = 0;
+    while (found = reg.exec(string)) {
+        array.push(found[1]);
+        i++;
+    }
+
+
+    return array;
+}
 
 /**
  * Next page, not done, ... just a sample !
@@ -216,18 +227,15 @@ exports.getFillPnr = function (req, res) {
             var cookieString = current_flight.cookieString;
 
             // now select product on air france website "https://www.airfrance.fr/FR/en/local/process/standardbooking/UpdateCustomPageActionDallas.do", send pnr, etc...
-            exports.cleanSession(req);
             return res.render("index.ejs", {
                 success: true
             });
         }
-        exports.cleanSession(req);
         return res.render("index.ejs", {
             error: "Invalid parameters"
         });
 
     }
-    exports.cleanSession(req);
     return res.render("index.ejs", {
         error: "Session has expired"
     });
@@ -253,15 +261,6 @@ exports.buildCookieString = function (array) {
         }
     }
     return value;
-};
-
-/**
- * Helper, clean session result
- **/
-exports.cleanSession = function (req) {
-    if (req.session && req.session.airFrance) {
-        delete req.session.airFrance;
-    }
 };
 
 /**
