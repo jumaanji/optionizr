@@ -3,11 +3,11 @@
 <head>
 	<% include shared/header %>
 	<script>
-		$('#my-element').data('datepicker')
+	$('#my-element').data('datepicker')
 	</script>
 </head>
-<body>
-		<!-- <img src="img/90H.jpg" alt=""> -->
+<body background="img/image3.jpg">
+	<!-- <img src="img/90H.jpg" alt=""> -->
 	<% include shared/nav %>
 	<!-- main container -->
 	<div class="container">
@@ -44,9 +44,9 @@
 
 		<form action="/demo" method="post">
 			<!-- field list row -->
-			<div class="row">
+			<div class="row center-block">
 				<!-- field list col -->
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label class="form-label" for="from">Departure</label>
 						<select class="form-control" id="from" name="from">
@@ -98,7 +98,7 @@
 							<!-- <label class="form-label" for="number"></label> -->
 							<select class="form-control" id="child_number" name="child_number">
 								<option value="0">0</option>
-								<option value="1">1</option>
+								<optison value="1">1</option>
 								<option value="2">2</option>
 								<option value="3">3</option>
 								<option value="4">4</option>
@@ -113,29 +113,33 @@
 						</div>
 					</div>
 					<div class="row">
-					<input type='text' class="form-control datepicker-here" data-position="right top" data-language='en' placeholder="DD/MM/YYYY" id="date" name="date" />
-					  </div>
+						<div class="col-md-6">
+						<input type='text' class="form-control datepicker-here" data-position="right top" data-language='en' placeholder="DD/MM/YYYY" id="date" name="date" />
 						</div>
 						<div class="form-group col-md-6">
 							<label class="form-label" for="type">Travel type</label>
 							<div class="checkbox">
 								<label>
-									<input type="checkbox" checked> Aller simple
+									<input type="checkbox" checked> One way
 								</label>
-
 							</div>
 						</div>
 					</div>
-						<div class="form-group text-center">
-							<button class="btn btn-primary" type="submit">Submit</button>
-						</div>
-					</div>
-					<!-- end field list col -->
+
+				<div class="form-group text-center">
+					<button class="btn btn-primary" type="submit">Submit</button>
 				</div>
-				<!-- end field list row -->
-			</form>
+				</div>
+
+			</div>
 		</div>
-		<!-- end main container -->
-		<% include shared/footer %>
-	</body>
-	</html>
+
+		<!-- end field list col -->
+	</div>
+	<!-- end field list row -->
+</form>
+</div>
+<!-- end main container -->
+<% include shared/footer %>
+</body>
+</html>
