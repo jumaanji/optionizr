@@ -20,7 +20,6 @@ $(document).ready(function () {
         success: function (data) {
             $.each(data, function (key, value) {
                 for (var i = 0; i < value.length; i++) {
-                    console.log(value[i]);
                     $('#to')
                         .append($("<option></option>")
                             .attr("value", value[i].code)
@@ -38,7 +37,6 @@ $(document).ready(function () {
             success: function (data) {
                 $.each(data, function (key, value) {
                     for (var i = 0; i < value.length; i++) {
-                        console.log(value[i]);
                         $('#to')
                             .append($("<option></option>")
                                 .attr("value", value[i].code)
