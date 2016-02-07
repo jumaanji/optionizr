@@ -73,9 +73,52 @@ code {
   background-color: white;
 }
 
+<<<<<<< HEAD
+.flight-ticket {
+  background-color: white;
+  color: black;
+}
+
+.note {
+  border-radius: 3px;
+  color: #333;
+  padding: 15px;
+  margin: 0 0 20px 0;
+  border-style: solid;
+}
+
+.note-primary {
+  background-color: transparent;
+  border-color: #337ab7;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.note-top-striped {
+  border-width: 5px 1px 1px 1px;
+}
+
+.white {
+  color:; white;
+}
+
+h1 {
+  font-size: 25px !important;
+}
+
+.h2, h2 {
+  font-size: 10px;
+}
+
+.flight-ticket p {
+  background-color: white;
+}
+
+.m-b-lg {
+  margin-bottom: 30px;
+
 .col-md-5 {
   margin : 0 auto !important;
-  float: none;
+  float: none !important;
 }
 
 .page-header h1 {
