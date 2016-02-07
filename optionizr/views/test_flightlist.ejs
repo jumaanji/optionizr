@@ -60,7 +60,7 @@
     var i = 0;
 
     while(list.hasOwnProperty(i)) {
-        $('body').append('<div class="col-md-6 flight-ticket note note-primary note-top-striped m-t-sm tickets wow fadeInUp scale_hover" > <table style="width:100%"><tr> <td><span class="h2">Billet Aller Simple </span></td> </tr> <tr id="price_'+i+'"> <td><a class="h3">Price:</a href="#"></td> </tr> <tr> <td><span class="h3">Time:</span></td> <td><span>' + list[i]["time"] + '</span></td> </tr> <tr> <td><span class="h3">Escale:</span></td> <td><span>' + list[i]["escale"] + '</span></td> </tr> </table> </div>');
+        $('body').append('<div class="col-md-6 flight-ticket note note-primary note-top-striped m-t-sm tickets wow fadeInUp scale_hover" > <table style="width:100%"><tr> <td><span class="h2">Billet Aller Simple </span></td> </tr> <tr id="price_'+i+'"> <td style="width: 213px;"><a class="h3">Price:</a href="#"></td> </tr> <tr> <td><span class="h3">Time:</span></td> <td><span>' + list[i]["time"] + '</span></td> </tr> <tr> <td><span class="h3">Escale:</span></td> <td><span>' + list[i]["escale"] + '</span></td> </tr> </table> </div>');
         var j = 0;
         while (list[i]['price'].hasOwnProperty(j)) {
             if (typeof list[i]['price'][j] != 'undefined') {
@@ -74,7 +74,11 @@
         i++;
     }
 
-    $('.form-content').append('<span>Your flight search: </span><span>'+ form['from']+ ' - ' + form["to"] + '</span><br/><span>' + form["date"] + ', ' + form["number"] + ' adult</span><br/><a class="white" href="/">Change your search</a>');
+    var s = "";
+    if (form["number"] > 1) {
+        s = "s"
+    }
+    $('.form-content').append('<span>Your flight search: </span><span>'+ form['from']+ ' - ' + form["to"] + '</span><br/><span>' + form["date"] + ', ' + form["number"] + ' adult'+s+'</span><br/><a class="white" href="/">Change your search</a>');
 
 </script>
 </body>
