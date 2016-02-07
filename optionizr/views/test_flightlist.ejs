@@ -19,7 +19,7 @@
 			}
 			.tickets {
 			  background-color: white !important;
-			  margin-left: 260px !important;
+			  /*margin-left: 260px !important;*/
 			}
 			.tickets:hover {
 	 			box-shadow: 0px 0px 150px #000000;
@@ -34,7 +34,7 @@
 			}
 
 			body {
-				/*background: url("img/image3.jpg");*/
+				background: url("img/image3.jpg");
 				background-repeat: no-repeat;
 				background-size: cover;
 			}
@@ -49,25 +49,22 @@
 <div class="m-t-sm">
 	<h1 class="h1 white">Flights:</h1>
 	<div class="row">
-	    <div class="col-md-8 m-b-lg text-sm">
-	        <span>Your flight search:</span>
-	        <span>Lorem ipsum dolor.</span>
-	        <a class="white" href="#">Change your search</a>
+	    <div class="col-md-8 m-b-lg text-sm form-content">
 	    </div>
 	</div>
 </div>
 </div>
 <script>
     var list = <%- list %>;
+    var form = <%- form %>;
     var i = 0;
 
     while(list.hasOwnProperty(i)) {
-        $('body').append('<div class="col-md-10 flight-ticket note note-primary note-top-striped m-t-sm tickets wow fadeInUp scale_hover" > <table style="width:100%" class="col-md-10"><tr> <td><span class="h2">Billet Aller Simple </span></td> </tr> <tr id="price_'+i+'"> <td><span class="h3">Price:</span href="#"></td> </tr> <tr> <td><span class="h3">Time:</span></td> <td><span>' + list[i]["time"] + '</span></td> </tr> <tr> <td><span class="h3">Escale:</span></td> <td><span>' + list[i]["escale"] + '</span></td> </tr> </table> </div>');
+        $('body').append('<div class="col-md-10 flight-ticket note note-primary note-top-striped m-t-sm tickets wow fadeInUp scale_hover" > <table style="width:100%"><tr> <td><span class="h2">Billet Aller Simple </span></td> </tr> <tr id="price_'+i+'"> <td style=""><span class="h3">Price:</span href="#"></td> </tr> <tr> <td><span class="h3">Time:</span></td> <td><span>' + list[i]["time"] + '</span></td> </tr> <tr> <td><span class="h3">Escale:</span></td> <td><span>' + list[i]["escale"] + '</span></td> </tr> </table> </div>');
         var j = 0;
-        console.log(list[i]["price"].hasOwnProperty(j));
         while (list[i]['price'].hasOwnProperty(j)) {
-            if (typeof list[0]['price'][j] != 'undefined') {
-                $('#price_' + i).append('<td><span>' + list[0]['price'][j] + ' €</span></td>');
+            if (typeof list[i]['price'][j] != 'undefined') {
+                $('#price_' + i).append('<td><span>' + list[i]['price'][j] + ' €</span></td>');
             }
             else {
                 $('#price_' + i).append('<td><span> Not available </span></td>');
@@ -77,6 +74,11 @@
         i++;
     }
 
+    var s = "";
+    if (form["number"] > 1) {
+        s = "s"
+    }
+    $('.form-content').append('<span>Your flight search: </span><span>'+ form['from']+ ' - ' + form["to"] + '</span><br/><span>' + form["date"] + ', ' + form["number"] + ' adult'+s+'</span><br/><a class="white" href="/">Change your search</a>');
 
 </script>
 </body>
