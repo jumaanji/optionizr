@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html>
 	<head>
 		<% include shared/header %>
 		<style media="screen">
@@ -17,47 +17,46 @@
 			  background-color: white !important;
 			   margin-left: 260px !important;
 			}
+			body {
+				background: url("img/image3.jpg");
+				background-repeat: no-repeat;
+				background-size: cover;
+			}
 	</style>
 	       <script src="plugin/wow.min.js"></script>
           <script>
           new WOW().init();
           </script>
 	</head>
-	<body background="img/image3.jpg">
-		<h1 class="white">Flights</h1>
-		<div class="row">
-			<div class="col-md-8 m-b-lg">
-				<span>Your flight search:</span>
-				<span>Lorem ipsum dolor.</span>
-				<a class="" href="#">Change your search</a>
-			</div>
-		</div>
+<body>
+<h1 class="white">Flights</h1>
+<div class="row">
+    <div class="col-md-8 m-b-lg">
+        <span>Your flight search:</span>
+        <span>Lorem ipsum dolor.</span>
+        <a class="" href="#">Change your search</a>
+    </div>
+</div>
 
-		<div class="col-md-6 note note-primary note-top-striped m-t-sm wow bounceInUp test">
-				<table style="width:100%">
-				  <tr>
-				    <td><span class="h2">Billet Aller Simple </span></td>
-				  </tr>
-				  <tr>
-				    <td><span class="h3">Price:</span></td>
-				    <td><span><%- list[0]['price'] %> €</span></td>
-				    <td><span><%- list[0]['price'] %> €</span></td>
-				    <td><span><%- list[0]['price'] %> €</span></td>
-				    <td><span><%- list[0]['price'] %> €</span></td>
-				    <td><span><%- list[0]['price'] %> €</span></td>
-				  </tr>
-				  <tr>
-				  	<td><span class="h3">Time:</span></td>
-					<td><span><%- list[0]['time'] %></span></td>
-				  </tr>
-				  <tr>
-				  		<td><span class="h3">Escale:</span></td>
-				  		<td><span><%- list[0]['escale'] %></span></td>
-				  </tr>
-				</table>
-		</div>
-	</body>
+<script>
+    var list = <%- list %>;
+    var i = 0;
 
-	<% include shared/footer %>
+    while(list.hasOwnProperty(i)) {
+        $('body').append('<div class="col-md-6 flight-ticket note note-primary note-top-striped m-t-sm" style="color:black;background-color: white; margin-left: 260px;"> <table style="width:100%"><tr> <td><span class="h2">Billet Aller Simple </span></td> </tr> <tr id="price_'+i+'"> <td><span class="h3">Price:</span></td> </tr> <tr> <td><span class="h3">Time:</span></td> <td><span>' + list[i]["time"] + '</span></td> </tr> <tr> <td><span class="h3">Escale:</span></td> <td><span>' + list[i]["escale"] + '</span></td> </tr> </table> </div>');
+        var j = 0;
+        console.log(list[i]["price"].hasOwnProperty(j));
+        while (list[i]['price'].hasOwnProperty(j)) {
+        	$('#price_'+i).append('<td><span>'+ list[0]['price'][j] +' €</span></td>');
+        	j++;
+        }
+        i++;
+    }
+
+
+</script>
+</body>
+
+<% include shared/footer %>
 
 </html>
