@@ -13,8 +13,15 @@
 			.m-t-sm {
 				margin-top: 20px;
 			}
-
 		</style>
+
+		<script>
+			var list = <%- list %>;
+			for (var i = 0; i < list.hasOwnProperty(i); i++) {
+					$('body').appendChild('<div class="col-md-6 flight-ticket note note-primary note-top-striped m-t-sm" style="color:black;background-color: white; margin-left: 260px;\ "> <table style="width:100%"> \ <tr> \ <td><span class="h2">Billet Aller Simple </span></td> \ </tr> \ <tr> \ <td><span class="h3">Price:</span></td> \ <td><span>' + list[i]['price'] + '€</span></td> \ </tr> \ <tr> \ <td><span class="h3">Time:</span></td> \ <td><span>' + list[i]['time'] + '</span></td> \ </tr> \ <tr> \ <td><span class="h3">Escale:</span></td> \ <td><span>' + list[i]['escale'] + '</span></td> \ </tr> \ </table> \ </div>');
+			}
+		</script>
+
 	</head>
 	<body background="img/image3.jpg">
 		<h1 class="white">Flights</h1>
@@ -25,30 +32,26 @@
 				<a class="" href="#">Change your search</a>
 			</div>
 		</div>
-
-		<div class="col-md-6 flight-ticket note note-primary note-top-striped m-t-sm" style="background-color: white; margin-left: 260px;">
+		<!-- <p> <%- list[0] %></p> -->
+		<!--<div class="col-md-6 flight-ticket note note-primary note-top-striped m-t-sm" style="color:black;background-color: white; margin-left: 260px;">
 			<table style="width:100%">
 			  <tr>
 			    <td><span class="h2">Billet Aller Simple </span></td>
 			  </tr>
 			  <tr>
 			    <td><span class="h3">Price:</span></td>
-			    <td><span><%- list[0]['price'][0] %> €</span></td>
-			    <td><span><%- list[0]['price'][0] %> €</span></td>
-			    <td><span><%- list[0]['price'][0] %> €</span></td>
-			    <td><span><%- list[0]['price'][0] %> €</span></td>
-			    <td><span><%- list[0]['price'][0] %> €</span></td>
+			    <td><span><%- list[i]['price'] %> €</span></td>
 			  </tr>
 			  <tr>
 			  	<td><span class="h3">Time:</span></td>
-				<td><span><%- list[0]['time'][0] %></span></td>
+				<td><span><%- list[i]['time'] %></span></td>
 			  </tr>
 			  <tr>
 			  		<td><span class="h3">Escale:</span></td>
-			  		<td><span><%- list[0]['escale'][0] %></span></td>
+			  		<td><span><%- list[i]['escale'] %></span></td>
 			  </tr>
 			</table>
-		</div>
+		</div>-->
 	</body>
 
 	<% include shared/footer %>
