@@ -19,7 +19,8 @@
 			}
 			.tickets {
 			  background-color: white !important;
-			  margin-left: 260px !important;
+			margin: 0 auto;
+			float : none;
 			}
 			.tickets:hover {
 	 			box-shadow: 0px 0px 150px #000000;
@@ -68,7 +69,7 @@
     var i = 0;
 
     while(list.hasOwnProperty(i)) {
-        $('body').append('<div class="col-lg-8 flight-ticket note note-primary note-top-striped m-t-sm tickets wow fadeInUp scale_hover" > <table style="width:100%"><tr> <td><span class="h2">Billet Aller Simple </span></td> </tr> <tr id="price_'+i+'"> <td style=""><span class="h3">Price:</span></td> </tr> <tr> <td><span class="h3">Time:</span></td> <td><span>' + list[i]["time"] + '</span></td> </tr> <tr> <td><span class="h3">Escale:</span></td> <td><span>' + list[i]["escale"] + '</span></td> </tr> </table> </div>');
+        $('body').append('<div class="col-lg-8 flight-ticket note note-primary note-top-striped m-t-sm tickets wow fadeInUp scale_hover" > <table style="width:100%"><tr> <td><span class="h2">Billet Aller Simple </span></td> </tr> <tr id="price_'+i+'"> <td style="width: 213px;"><span class="h3">Price:</span></td> </tr> <tr> <td><span class="h3">Time:</span></td> <td><span>' + list[i]["time"] + '</span></td> </tr> <tr> <td><span class="h3">Escale:</span></td> <td><span>' + list[i]["escale"] + '</span></td> </tr> </table> </div>');
         var j = 0;
         while (list[i]['price'].hasOwnProperty(j)) {
             if (typeof list[i]['price'][j] != 'undefined') {
