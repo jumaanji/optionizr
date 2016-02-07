@@ -11,6 +11,8 @@ $(document).ready(function () {
                             .text(value[i].name));
                 }
             });
+            $('#from').select2();
+            $('#s2id_from').css("margin-left", "-12px");
         }
     });
 
@@ -26,6 +28,8 @@ $(document).ready(function () {
                             .text(value[i].name));
                 }
             });
+            $('#to').select2();
+            $('#s2id_to').css("margin-left", "-12px");
         }
     });
 
