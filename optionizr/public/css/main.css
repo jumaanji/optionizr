@@ -118,7 +118,7 @@ h1 {
 
 .col-md-5 {
   margin : 0 auto !important;
-  float: none;
+  float: none !important;
 }
 
 .page-header h1 {
