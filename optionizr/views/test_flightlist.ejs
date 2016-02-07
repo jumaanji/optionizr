@@ -34,7 +34,7 @@
 			}
 
 			body {
-				background: url("img/image3.jpg");
+				/*background: url("img/image3.jpg");*/
 				background-repeat: no-repeat;
 				background-size: cover;
 			}
@@ -62,7 +62,7 @@
     var i = 0;
 
     while(list.hasOwnProperty(i)) {
-        $('body').append('<div class="col-md-6 flight-ticket note note-primary note-top-striped m-t-sm tickets wow fadeInUp scale_hover" > <table style="width:100%"><tr> <td><span class="h2">Billet Aller Simple </span></td> </tr> <tr id="price_'+i+'"> <td><a class="h3">Price:</a href="#"></td> </tr> <tr> <td><span class="h3">Time:</span></td> <td><span>' + list[i]["time"] + '</span></td> </tr> <tr> <td><span class="h3">Escale:</span></td> <td><span>' + list[i]["escale"] + '</span></td> </tr> </table> </div>');
+        $('body').append('<div class="col-md-10 flight-ticket note note-primary note-top-striped m-t-sm tickets wow fadeInUp scale_hover" > <table style="width:100%" class="col-md-10"><tr> <td><span class="h2">Billet Aller Simple </span></td> </tr> <tr id="price_'+i+'"> <td><span class="h3">Price:</span href="#"></td> </tr> <tr> <td><span class="h3">Time:</span></td> <td><span>' + list[i]["time"] + '</span></td> </tr> <tr> <td><span class="h3">Escale:</span></td> <td><span>' + list[i]["escale"] + '</span></td> </tr> </table> </div>');
         var j = 0;
         console.log(list[i]["price"].hasOwnProperty(j));
         while (list[i]['price'].hasOwnProperty(j)) {

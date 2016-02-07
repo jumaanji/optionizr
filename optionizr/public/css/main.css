@@ -10,9 +10,11 @@ body {
   font-family: 'Muli', sans-serif;
   background-size: 100%;
   color: white;
-
-    /*background-repeat: no-repeat;*/
+  background: url("img/image3.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+
 .footer {
   position: absolute;
   bottom: 0;
@@ -144,3 +146,10 @@ h1 {
   transform: scale(1.1);
 }
 
+
+/* responsive */
+
+@media screen and (max-width: 760px)
+{
+  background: none;
+}
