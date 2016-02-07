@@ -65,12 +65,10 @@ exports.postIndex = function (req, res) {
     var formated_date = '20' + date[6] + date[7] + '-' + date[0] + date[1] + '-' + date[3] + date[4];
     req.body.date = formated_date;
     var response = requestt('https://www.airberlin.com/fr-FR/booking/flight/vacancy.php?departure=' + req.body.from.toString() + '&destination=' + req.body.to.toString() + '&outboundDate=' + req.body.date.toString() + '&returnDate=' + req.body.date.toString() + '&oneway=1&openDateOverview=0&adultCount=' + req.body.number.toString() + '&childCount=0&infantCount=0', {method: 'GET'});
-    var string = response.headers["location"];
-    var rePattern = new RegExp(/sid=(.{20})/);
-    var arrMatches = string.match(rePattern);
+    var url = response.headers["location"];
     var cookie = exports.buildCookieString(response.headers["set-cookie"]);
 
-    exports.retrieveAirBerlinFlightList(res, arrMatches[1], cookie, req.body);
+    exports.retrieveAirBerlinFlightList(res, url, cookie, req.body);
 
     //res.send(arrMatches[1]);
 };
@@ -80,7 +78,7 @@ exports.postIndex = function (req, res) {
  *
  * Warning, on this target site datas must be pass through two consecutive pages.
  **/
-exports.retrieveAirBerlinFlightList = function (res, sid, cookie, body) {
+exports.retrieveAirBerlinFlightList = function (res, url, cookie, body) {
     var bodyString = "_ajax[templates][]=dateoverview"+
     "&_ajax[templates][]=main"+
     "&_ajax[templates][]=priceoverview"+
@@ -98,14 +96,14 @@ exports.retrieveAirBerlinFlightList = function (res, sid, cookie, body) {
     "&_ajax[requestParams][openDateOverview]="+
     "&_ajax[requestParams][oneway]=1";
     var requestData = {
-        url: "https://www.airberlin.com/fr-FR/booking/flight/vacancy.php?sid=" + sid,
+        url: "https://www.airberlin.com" + url,
         body: bodyString,  // body data
         headers: {
             //http headers"
             "Content-Type": "application/x-www-form-urlencoded", // content type (form)
             "User-agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:42.0) Gecko/20100101 Firefox/42.0", // simulate browser
             "Cookie": cookie,
-            "Referer": "https://www.airberlin.com/fr-FR/booking/flight/vacancy.php?sid=" + sid // simulate request comes from airFrance
+            "Referer": "https://www.airberlin.com" + url // simulate request comes from airFrance
         },
         cookieString: cookie
     };
@@ -113,10 +111,12 @@ exports.retrieveAirBerlinFlightList = function (res, sid, cookie, body) {
     request.post(requestData, function (error, response) {
         var full_body = JSON.parse(response.body);
         var content = full_body["templates"]["main"];
-        console.log(exports.parseAirBerlinFlightList(content)['outbound']);
-        //res.send(content);
+        var option = full_body["templates"]['priceoverview'];
+
+        //console.log(exports.parseAirBerlinFlightList(content)['outbound']);
+        // res.send(content+option);
         res.render("test_flightlist.ejs",{
-            list: 	exports.parseAirBerlinFlightList(content)['outbound'],		// flight list
+           list: 	exports.parseAirBerlinFlightList(content)['outbound'],		// flight list
         });
     });
 };
@@ -129,7 +129,7 @@ exports.retrieveAirBerlinFlightList = function (res, sid, cookie, body) {
  **/
 exports.parseAirBerlinFlightList = function (html) {
         var string = html;
-        var reg = /(<tr class="flightrow">|<tr class="flightrow selected">)([^.]*)<\/tr>/g
+        var reg = /(<tr class="flightrow">|<tr class="flightrow selected">)([^`]*?)<\/tr>/g
         var resultAllFlights = [], found;
 
         while (found = reg.exec(string)) {
