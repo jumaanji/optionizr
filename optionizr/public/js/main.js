@@ -11,6 +11,8 @@ $(document).ready(function () {
                             .text(value[i].name));
                 }
             });
+            $('#from').select2();
+            $('#s2id_from').css("margin-left", "-12px");
         }
     });
 
@@ -20,13 +22,14 @@ $(document).ready(function () {
         success: function (data) {
             $.each(data, function (key, value) {
                 for (var i = 0; i < value.length; i++) {
-                    console.log(value[i]);
                     $('#to')
                         .append($("<option></option>")
                             .attr("value", value[i].code)
                             .text(value[i].name));
                 }
             });
+            $('#to').select2();
+            $('#s2id_to').css("margin-left", "-12px");
         }
     });
 
@@ -38,7 +41,6 @@ $(document).ready(function () {
             success: function (data) {
                 $.each(data, function (key, value) {
                     for (var i = 0; i < value.length; i++) {
-                        console.log(value[i]);
                         $('#to')
                             .append($("<option></option>")
                                 .attr("value", value[i].code)
@@ -47,22 +49,6 @@ $(document).ready(function () {
                 });
             }
         });
-    });
-
-    var $document = $(document),
-    $element = $('#test'),
-    className = 'opacity-max';
-    console.log($element);
-    $document.scroll(function() {
-        if ($document.scrollTop() >= 60) {
-            console.log("sup");
-            $element.addClass(className);
-            console.log("ajouté");
-            console.log($element);
-
-        } else {
-           $element.removeClass(className);
-        }
     });
 
 });

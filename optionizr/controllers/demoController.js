@@ -61,6 +61,9 @@ exports.getIndex = function (req, res) {
  * Index post search, launch air france request
  **/
 exports.postIndex = function (req, res) {
+    var date = req.body.date.toString();
+    var formated_date = '20' + date[6] + date[7] + '-' + date[0] + date[1] + '-' + date[3] + date[4];
+    req.body.date = formated_date;
     var response = requestt('https://www.airberlin.com/fr-FR/booking/flight/vacancy.php?departure=' + req.body.from.toString() + '&destination=' + req.body.to.toString() + '&outboundDate=' + req.body.date.toString() + '&returnDate=' + req.body.date.toString() + '&oneway=1&openDateOverview=0&adultCount=' + req.body.number.toString() + '&childCount=0&infantCount=0', {method: 'GET'});
     var string = response.headers["location"];
     var rePattern = new RegExp(/sid=(.{20})/);
@@ -107,11 +110,14 @@ exports.retrieveAirBerlinFlightList = function (res, sid, cookie, body) {
         cookieString: cookie
     };
 
-    request.post(requestData, function (error, response, body) {
+    request.post(requestData, function (error, response) {
         var full_body = JSON.parse(response.body);
         var content = full_body["templates"]["main"];
         console.log(exports.parseAirBerlinFlightList(content));
         res.send(content);
+        //res.render("flightlist.ejs",{
+        //    list: 	exports.parseAirBerlinFlightList(content),		// flight list
+        //});
     });
 };
 
@@ -129,7 +135,6 @@ exports.parseAirBerlinFlightList = function (html) {
         while (found = reg.exec(string)) {
             resultAllFlights.push(found[0]);
         }
-        console.log("SIZE : "+resultAllFlights.length);
 
         var finalObject = {};
         finalObject['outbound'] = {};
@@ -179,27 +184,30 @@ function flightInformations(string) {
     var found;
 
     // GET PRICES
+    array['price'] = [];
     var reg = /<span id="price-.{13}">(.{1,10})<\/span>/g
     var i = 0;
     while (found = reg.exec(string)) {
         if (isOdd(i))
-            array.push(found[1]);
+            array['price'].push(found[1]);
         i++;
     }
 
     // GET HORAIRES
+    array['time'] = [];
     var reg = /<time>(.{3,10})<\/time>/g
     var i = 0;
     while (found = reg.exec(string)) {
-        array.push(found[1]);
+        array['time'].push(found[1]);
         i++;
     }
 
     // GET ESCALES
+    array['escale'] = [];
     var reg = /<td>(.{1})<\/td>/g
     var i = 0;
     while (found = reg.exec(string)) {
-        array.push(found[1]);
+        array['escale'].push(found[1]);
         i++;
     }
 
