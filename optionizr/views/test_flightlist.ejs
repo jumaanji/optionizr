@@ -3,6 +3,10 @@
 	<head>
 		<% include shared/header %>
 		<style media="screen">
+			.h1 {
+				font-size: 30px !important;
+			}
+
 			h2,
 			.h2 {
 				font-size: 20px !important;
@@ -15,8 +19,16 @@
 			}
 			.test {
 			  background-color: white !important;
-			   margin-left: 260px !important;
+			  margin-left: 260px !important;
 			}
+			.text-sm {
+				font-size: 20px !important;
+			}
+
+			a:focus, a:hover {
+				color: white !important;
+			}
+
 			body {
 				background: url("img/image3.jpg");
 				background-repeat: no-repeat;
@@ -29,21 +41,24 @@
           </script>
 	</head>
 <body>
-<h1 class="white">Flights</h1>
-<div class="row">
-    <div class="col-md-8 m-b-lg">
-        <span>Your flight search:</span>
-        <span>Lorem ipsum dolor.</span>
-        <a class="" href="#">Change your search</a>
-    </div>
+<div class="container">
+<div class="m-t-sm">
+	<h1 class="h1 white">Flights:</h1>
+	<div class="row">
+	    <div class="col-md-8 m-b-lg text-sm">
+	        <span>Your flight search:</span>
+	        <span>Lorem ipsum dolor.</span>
+	        <a class="white" href="#">Change your search</a>
+	    </div>
+	</div>
 </div>
-
+</div>
 <script>
     var list = <%- list %>;
     var i = 0;
 
     while(list.hasOwnProperty(i)) {
-        $('body').append('<div class="col-md-6 flight-ticket note note-primary note-top-striped m-t-sm" style="color:black;background-color: white; margin-left: 260px;"> <table style="width:100%"><tr> <td><span class="h2">Billet Aller Simple </span></td> </tr> <tr id="price_'+i+'"> <td><span class="h3">Price:</span></td> </tr> <tr> <td><span class="h3">Time:</span></td> <td><span>' + list[i]["time"] + '</span></td> </tr> <tr> <td><span class="h3">Escale:</span></td> <td><span>' + list[i]["escale"] + '</span></td> </tr> </table> </div>');
+        $('body').append('<div class="col-md-6 flight-ticket note note-primary note-top-striped m-t-sm test wow fadeInUp" > <table style="width:100%"><tr> <td><span class="h2">Billet Aller Simple </span></td> </tr> <tr id="price_'+i+'"> <td><span class="h3">Price:</span></td> </tr> <tr> <td><span class="h3">Time:</span></td> <td><span>' + list[i]["time"] + '</span></td> </tr> <tr> <td><span class="h3">Escale:</span></td> <td><span>' + list[i]["escale"] + '</span></td> </tr> </table> </div>');
         var j = 0;
         console.log(list[i]["price"].hasOwnProperty(j));
         while (list[i]['price'].hasOwnProperty(j)) {
