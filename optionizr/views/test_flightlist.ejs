@@ -1,59 +1,45 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<% include shared/header %>
-		<style media="screen">
-			h2,
-			.h2 {
-				font-size: 20px !important;
-			}
-			.h3 {
-				font-size: 16px;
-			}
-			.m-t-sm {
-				margin-top: 20px;
-			}
-		</style>
+<head>
+    <% include shared/header %>
+    <style media="screen">
+        h2,
+        .h2 {
+            font-size: 20px !important;
+        }
 
-		<script>
-			var list = <%- list %>;
-			for (var i = 0; i < list.hasOwnProperty(i); i++) {
-					$('body').appendChild('<div class="col-md-6 flight-ticket note note-primary note-top-striped m-t-sm" style="color:black;background-color: white; margin-left: 260px;\ "> <table style="width:100%"> \ <tr> \ <td><span class="h2">Billet Aller Simple </span></td> \ </tr> \ <tr> \ <td><span class="h3">Price:</span></td> \ <td><span>' + list[i]['price'] + '€</span></td> \ </tr> \ <tr> \ <td><span class="h3">Time:</span></td> \ <td><span>' + list[i]['time'] + '</span></td> \ </tr> \ <tr> \ <td><span class="h3">Escale:</span></td> \ <td><span>' + list[i]['escale'] + '</span></td> \ </tr> \ </table> \ </div>');
-			}
-		</script>
+        .h3 {
+            font-size: 16px;
+        }
 
-	</head>
-	<body background="img/image3.jpg">
-		<h1 class="white">Flights</h1>
-		<div class="row">
-			<div class="col-md-8 m-b-lg">
-				<span>Your flight search:</span>
-				<span>Lorem ipsum dolor.</span>
-				<a class="" href="#">Change your search</a>
-			</div>
-		</div>
-		<!-- <p> <%- list[0] %></p> -->
-		<!--<div class="col-md-6 flight-ticket note note-primary note-top-striped m-t-sm" style="color:black;background-color: white; margin-left: 260px;">
-			<table style="width:100%">
-			  <tr>
-			    <td><span class="h2">Billet Aller Simple </span></td>
-			  </tr>
-			  <tr>
-			    <td><span class="h3">Price:</span></td>
-			    <td><span><%- list[i]['price'] %> €</span></td>
-			  </tr>
-			  <tr>
-			  	<td><span class="h3">Time:</span></td>
-				<td><span><%- list[i]['time'] %></span></td>
-			  </tr>
-			  <tr>
-			  		<td><span class="h3">Escale:</span></td>
-			  		<td><span><%- list[i]['escale'] %></span></td>
-			  </tr>
-			</table>
-		</div>-->
-	</body>
+        .m-t-sm {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body background="img/image3.jpg">
+<h1 class="white">Flights</h1>
+<div class="row">
+    <div class="col-md-8 m-b-lg">
+        <span>Your flight search:</span>
+        <span>Lorem ipsum dolor.</span>
+        <a class="" href="#">Change your search</a>
+    </div>
+</div>
 
-	<% include shared/footer %>
+<script>
+    $(".content").append("<p>TEST</p>");
+    var list = <%- list %>;
+    var i = 0;
+    //console.log('<div class="col-md-6 flight-ticket note note-primary note-top-striped m-t-sm" style="color:black;background-color: white; margin-left: 260px;"> <table style="width:100%"><tr> <td><span class="h2">Billet Aller Simple </span></td> </tr> <tr> <td><span class="h3">Price:</span></td> <td><span>' + list[i]["price"] + '€</span></td> </tr> <tr> <td><span class="h3">Time:</span></td> <td><span>' + list[i]["time"] + '</span></td> </tr> <tr> <td><span class="h3">Escale:</span></td> <td><span>' + list[i]["escale"] + '</span></td> </tr> </table> </div>');
+    while(list.hasOwnProperty(i)) {
+        $('body').append('<div class="col-md-6 flight-ticket note note-primary note-top-striped m-t-sm" style="color:black;background-color: white; margin-left: 260px;"> <table style="width:100%"><tr> <td><span class="h2">Billet Aller Simple </span></td> </tr> <tr> <td><span class="h3">Price:</span></td> <td><span>' + list[i]["price"] + '€</span></td> </tr> <tr> <td><span class="h3">Time:</span></td> <td><span>' + list[i]["time"] + '</span></td> </tr> <tr> <td><span class="h3">Escale:</span></td> <td><span>' + list[i]["escale"] + '</span></td> </tr> </table> </div>');
+        i++;
+    }
+</script>
+
+</body>
+
+<% include shared/footer %>
 
 </html>
