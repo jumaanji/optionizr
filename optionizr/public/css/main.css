@@ -73,7 +73,6 @@ code {
   background-color: white;
 }
 
-<<<<<<< HEAD
 .flight-ticket {
   background-color: white;
   color: black;
@@ -98,7 +97,7 @@ code {
 }
 
 .white {
-  color:; white;
+  color: white;
 }
 
 h1 {
@@ -115,6 +114,7 @@ h1 {
 
 .m-b-lg {
   margin-bottom: 30px;
+}
 
 .col-md-5 {
   margin : 0 auto !important;
