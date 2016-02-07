@@ -139,3 +139,8 @@ h1 {
   color:#555;
 }
 
+.scale_hover:hover {
+  transition: all .2s ease-in-out;
+  transform: scale(1.1);
+}
+
