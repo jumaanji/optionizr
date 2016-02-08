@@ -110,7 +110,7 @@
 				    <p id="modal_time">09:20,16:00</p>
 				    <p id="modal_escale">Escales : 1</p>
                     <div style="float: right;margin-top: -100px !important;">
-						<div class="checkbox">
+						<div class="checkbox" id="overview_check">
 							<label><input type="checkbox" class="overview-check">72-hour fare guarantee <br/>(<span id="overview"></span> € per person)</label>
 						</div>
                         <h2 id="modal_price"></h2>
@@ -138,20 +138,24 @@
         $('.modal-title').text(form['from']+ ' - ' + form["to"]);
         $('#modal_date').text(form["date"] + ', ' + form["number"] + ' adult'+s);
         $('#modal_price').text('Total price : '+ total + " €");
-        $('#overview').text(priceoverview);
+		$('#overview').text(priceoverview);
 
-		if ($(".overview-check").prop("checked") === true) {
-			$('#modal_price').text('Total price : '+ totalWithFee + " €");
-		}
-
-		$(".overview-check").change(function() {
-			if (this.checked) {
-				$('#modal_price').text('Total price : '+ totalWithFee + " €");
-				$(this).prop("checked", true);
-			} else {
-				$('#modal_price').text('Total price : '+ total + " €");
+		if (priceoverview) {
+			if ($(".overview-check").prop("checked") === true) {
+				$('#modal_price').text('Total price : ' + totalWithFee + " €");
 			}
-		});
+
+			$(".overview-check").change(function () {
+				if (this.checked) {
+					$('#modal_price').text('Total price : ' + totalWithFee + " €");
+					$(this).prop("checked", true);
+				} else {
+					$('#modal_price').text('Total price : ' + total + " €");
+				}
+			});
+		} else {
+			$("#overview_check").css("display","none");
+		}
     });
 
 

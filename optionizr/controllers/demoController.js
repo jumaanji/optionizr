@@ -112,11 +112,15 @@ exports.retrieveAirBerlinFlightList = function (res, url, cookie, body) {
         var full_body = JSON.parse(response.body);
         var content = full_body["templates"]["main"];
 
-        //res.send(content);
+        if (getPriceOverView(full_body["templates"]["priceoverview"]) !== 0) {
+            var priceoverview = getPriceOverView(full_body["templates"]["priceoverview"]);
+        } else {
+            var priceoverview = "";
+        }
         res.render("test_flightlist.ejs",{
             list:           JSON.stringify(exports.parseAirBerlinFlightList(content)['outbound']), // flight list
             form:           JSON.stringify(body),
-            priceoverview:  getPriceOverView(full_body["templates"]["priceoverview"])
+            priceoverview:  priceoverview
         });
     });
 };
@@ -134,7 +138,11 @@ function getPriceOverView(html) {
     var reg = /<strong>&euro; .*<\/strong>/g
     var res = reg.exec(string);
 
-    return res[0].replace("<strong>&euro; ","").replace("</strong>","");
+    if (res) {
+        return res[0].replace("<strong>&euro; ", "").replace("</strong>", "");
+    } else {
+        return 0;
+    }
 }
 
 
