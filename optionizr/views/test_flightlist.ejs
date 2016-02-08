@@ -73,7 +73,7 @@
         var j = 0;
         while (list[i]['price'].hasOwnProperty(j)) {
             if (typeof list[i]['price'][j] != 'undefined') {
-                $('#price_' + i).append('<td style="max-width: 80px;"><span>' + list[i]['price'][j] + ' €</span></td>');
+                $('#price_' + i).append('<td style="width: 110px;float: left;"><span>' + list[i]['price'][j] + ' €</span></td>');
             }
             else {
                 $('#price_' + i).append('<td><span> Not available </span></td>');
