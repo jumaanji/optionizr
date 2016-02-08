@@ -34,6 +34,10 @@
 				color: white !important;
 			}
 
+			.black span, .black {color: #003366 !important;cursor: pointer;}
+
+			.modal-content {color: black !important;}
+
 			body {
 				background: url("img/image3.jpg");
 				background-repeat: no-repeat;
@@ -56,7 +60,7 @@
 <body>
 <div class="container">
 <div class="m-t-sm">
-	<h1 class="h1 white">Flights:</h1>
+	<h1 class="h1 white" style="margin-left: -15px !important;">Flights:</h1>
 	<div class="row">
 	    <div class="m-b-lg text-sm form-content">
 	    </div>
@@ -66,6 +70,7 @@
 <script>
     var list = <%- list %>;
     var form = <%- form %>;
+    var priceoverview = "<%- priceoverview %>";
     var i = 0;
 
     while(list.hasOwnProperty(i)) {
@@ -73,7 +78,7 @@
         var j = 0;
         while (list[i]['price'].hasOwnProperty(j)) {
             if (typeof list[i]['price'][j] != 'undefined') {
-                $('#price_' + i).append('<td style="width: 110px;float: left;"><span>' + list[i]['price'][j] + ' €</span></td>');
+                $('#price_' + i).append('<td style="width: 110px;float: left;"><div class="black selected-price" data-toggle="modal" data-target="#myModal" rel="tooltip" data-original-title="Click here to book">' + list[i]['price'][j] + ' €</div></td>');
             }
             else {
                 $('#price_' + i).append('<td><span> Not available </span></td>');
@@ -88,6 +93,67 @@
         s = "s"
     }
     $('.form-content').append('<span>Your flight search: </span><span>'+ form['from']+ ' - ' + form["to"] + '</span><br/><span>' + form["date"] + ', ' + form["number"] + ' adult'+s+'</span><br/><a class="white" href="/">Change your search</a>');
+
+	$("[rel='tooltip']").tooltip({placement : 'bottom'});
+</script>
+<div id="myModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title"></h4>
+			</div>
+			<div class="modal-body">
+				    <p id="modal_date"></p>
+				    <p id="modal_time">09:20,16:00</p>
+				    <p id="modal_escale">Escales : 1</p>
+                    <div style="float: right;margin-top: -100px !important;">
+						<div class="checkbox">
+							<label><input type="checkbox" class="overview-check">72-hour fare guarantee <br/>(<span id="overview"></span> € per person)</label>
+						</div>
+                        <h2 id="modal_price"></h2>
+                    </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <a href="#"><button type="button" class="btn btn-primary">Book</button></a>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<script>
+
+    $(document).on("click", ".selected-price", function () {
+        var price = $(this).text().replace("€","").replace(".","").replace(",",".");
+        var price_total = (parseInt(form["number"]) * (parseFloat(price) * 100)) / 100 ;
+        var patt = /\d{0,}\.\d{1,2}/g;
+        var total = patt.exec(price_total);
+		var overview_to_add = parseInt(form["number"]) * parseFloat(priceoverview.replace(",","."));
+		var totalWithFee = parseFloat(total) + overview_to_add;
+
+        $('.modal-title').text(form['from']+ ' - ' + form["to"]);
+        $('#modal_date').text(form["date"] + ', ' + form["number"] + ' adult'+s);
+        $('#modal_price').text('Total price : '+ total + " €");
+        $('#overview').text(priceoverview);
+
+		if ($(".overview-check").prop("checked") === true) {
+			$('#modal_price').text('Total price : '+ totalWithFee + " €");
+		}
+
+		$(".overview-check").change(function() {
+			if (this.checked) {
+				$('#modal_price').text('Total price : '+ totalWithFee + " €");
+				$(this).prop("checked", true);
+			} else {
+				$('#modal_price').text('Total price : '+ total + " €");
+			}
+		});
+    });
+
 
 </script>
 </body>

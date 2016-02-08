@@ -112,11 +112,11 @@ exports.retrieveAirBerlinFlightList = function (res, url, cookie, body) {
         var full_body = JSON.parse(response.body);
         var content = full_body["templates"]["main"];
 
-        console.log(JSON.stringify(exports.parseAirBerlinFlightList(content)['outbound']));
         //res.send(content);
         res.render("test_flightlist.ejs",{
-            list:   JSON.stringify(exports.parseAirBerlinFlightList(content)['outbound']), // flight list
-            form:   JSON.stringify(body)
+            list:           JSON.stringify(exports.parseAirBerlinFlightList(content)['outbound']), // flight list
+            form:           JSON.stringify(body),
+            priceoverview:  getPriceOverView(full_body["templates"]["priceoverview"])
         });
     });
 };
@@ -127,6 +127,17 @@ exports.retrieveAirBerlinFlightList = function (res, url, cookie, body) {
  * In order to simplify process we keep only direct flight (no change, 1 flight segment)
  *
  **/
+
+
+function getPriceOverView(html) {
+    var string = html;
+    var reg = /<strong>&euro; .*<\/strong>/g
+    var res = reg.exec(string);
+
+    return res[0].replace("<strong>&euro; ","").replace("</strong>","");
+}
+
+
 exports.parseAirBerlinFlightList = function (html) {
         var string = html;
         var reg = /(<tr class="flightrow">|<tr class="flightrow selected">)([^`]*?)<\/tr>/g
