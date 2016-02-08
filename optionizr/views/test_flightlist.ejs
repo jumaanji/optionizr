@@ -41,7 +41,7 @@
 			body {
 				background: url("img/image3.jpg");
 				background-repeat: no-repeat;
-				background-size: 100% 100%;
+				background-size: cover;
 			}
 
 			@media screen and (max-width: 1092px)
@@ -134,6 +134,7 @@
         var total = patt.exec(price_total);
 		var overview_to_add = parseInt(form["number"]) * parseFloat(priceoverview.replace(",","."));
 		var totalWithFee = parseFloat(total) + overview_to_add;
+
 
         $('.modal-title').text(form['from']+ ' - ' + form["to"]);
         $('#modal_date').text(form["date"] + ', ' + form["number"] + ' adult'+s);
